@@ -1,34 +1,23 @@
-package com.example.djmlib;
+package com.example.djmlib.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.IntDef;
+
+import com.example.djmlib.database.SdkDb;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import static com.example.djmlib.SdkDb.CARD_TB_NAME;
-import static com.example.djmlib.SdkDb.COL_CARD_ID;
-import static com.example.djmlib.SdkDb.COL_CARD_NUMBER;
-import static com.example.djmlib.SdkDb.COL_CARD_MONTH;
-import static com.example.djmlib.SdkDb.COL_CARD_YEAR;
-import static com.example.djmlib.SdkDb.COL_CARD_TYPE;
+import static com.example.djmlib.database.SdkDb.CARD_TB_NAME;
+import static com.example.djmlib.database.SdkDb.COL_CARD_ID;
+import static com.example.djmlib.database.SdkDb.COL_CARD_NUMBER;
+import static com.example.djmlib.database.SdkDb.COL_CARD_MONTH;
+import static com.example.djmlib.database.SdkDb.COL_CARD_YEAR;
+import static com.example.djmlib.database.SdkDb.COL_CARD_TYPE;
 
-
-/*
- *                       Copyright (c) Benjinn
- *
- *                            (C) Benjinn 2019
- * All rights are reserved. Reproduction in whole or in part is
- * prohibited without the written consent of the copyright owner.
- * Benjinn reserves the right to make changes without notice at any time.
- * Benjinn makes no warranty, expressed, implied or statutory, including but
- * not limited to any implied warranty of merchantability or fitness for any
- * particular purpose, or that the use will not infringe any third party patent,
- * copyright or trademark. Benjinn must not be liable for any loss or damage
- * arising from its use.
- */
 public class Card {
     /**
      * IntDef : cardType must be either VISA or MASTERCARD
@@ -54,11 +43,11 @@ public class Card {
         this.cardType = cardType;
     }
 
-    Card(Long cardNumber, int cardExpirationMonth, int cardExpirationYear, @CardSchemes int cardType) {
+    public Card(Long cardNumber, int cardExpirationMonth, int cardExpirationYear, @CardSchemes int cardType) {
         this(0,cardNumber,cardExpirationMonth,cardExpirationYear,cardType);
     }
 
-    boolean saveCard(SdkDb sdb){
+    public boolean saveCard(SdkDb sdb){
         SQLiteDatabase db = sdb.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_CARD_NUMBER, this.cardNumber);
@@ -69,14 +58,14 @@ public class Card {
         return db.insert(CARD_TB_NAME, null, values) > 0;
     }
 
-    boolean deleteCard(SdkDb sdb){
+    public boolean deleteCard(SdkDb sdb){
         SQLiteDatabase db = sdb.getWritableDatabase();
 
         return db.delete(CARD_TB_NAME,
                 "_id=?", new String[] { String.valueOf(this.cardId) }) == 1;
     }
 
-    static ArrayList<Card> getAllCards(SdkDb sdb){
+    public static ArrayList<Card> getAllCards(SdkDb sdb){
         SQLiteDatabase db = sdb.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + CARD_TB_NAME, new String[]{});
         ArrayList<Card> cards = new ArrayList<>();

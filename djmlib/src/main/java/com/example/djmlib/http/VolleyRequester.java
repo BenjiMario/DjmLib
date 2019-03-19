@@ -1,4 +1,4 @@
-package com.example.djmlib;
+package com.example.djmlib.http;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,21 +11,20 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.djmlib.StaticSdk;
+import com.example.djmlib.model.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*
- *                       Copyright (c) Benjinn
- *                            (C) Benjinn 2019
-
- */public class VolleyRequester {
+public class VolleyRequester {
     private StaticSdk sd;
-
-    VolleyRequester(StaticSdk ssdk) {
+    private final static String URL_DJM_BACK = "http://benjiji.fr/djm/djmBack.php";
+    public VolleyRequester(StaticSdk ssdk) {
         this.sd = ssdk;
     }
 
-    void getNewCardFromServer(final Context ctx) {
+    public void getNewCardFromServer(final Context ctx) {
         RequestQueue queue = Volley.newRequestQueue(ctx);
         JSONObject jo = new JSONObject();
         try {
@@ -34,7 +33,7 @@ import org.json.JSONObject;
             e.printStackTrace();
         }
         JsonRequest<JSONObject> jsonRequest =
-                new JsonObjectRequest(Request.Method.POST, StaticSdk.URL_DJM_BACK, jo,
+                new JsonObjectRequest(Request.Method.POST, URL_DJM_BACK, jo,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -51,7 +50,7 @@ import org.json.JSONObject;
     }
 
 
-    void activateService(final Context ctx, User u, String auth) {
+    public void activateService(final Context ctx, User u, String auth) {
         RequestQueue queue = Volley.newRequestQueue(ctx);
         JSONObject jo = new JSONObject();
         try {
@@ -63,7 +62,7 @@ import org.json.JSONObject;
             e.printStackTrace();
         }
         JsonRequest<JSONObject> jsonRequest =
-                new JsonObjectRequest(Request.Method.POST, StaticSdk.URL_DJM_BACK, jo,
+                new JsonObjectRequest(Request.Method.POST, URL_DJM_BACK, jo,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -78,7 +77,7 @@ import org.json.JSONObject;
         queue.add(jsonRequest);
     }
 
-    void debugRequest(Context ctx, String url){
+    public void debugRequest(Context ctx, String url){
         RequestQueue queue = Volley.newRequestQueue(ctx);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

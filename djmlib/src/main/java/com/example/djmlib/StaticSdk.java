@@ -4,6 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.example.djmlib.database.SdkDb;
+import com.example.djmlib.http.VolleyRequester;
+import com.example.djmlib.http.interfaces.AddCardResponseListener;
+import com.example.djmlib.http.interfaces.EnrollResponseListener;
+import com.example.djmlib.model.Card;
+import com.example.djmlib.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,22 +17,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/*
- *                       Copyright (c) Benjinn
- *
- *                            (C) Benjinn 2019
- * All rights are reserved. Reproduction in whole or in part is
- * prohibited without the written consent of the copyright owner.
- * Benjinn reserves the right to make changes without notice at any time.
- * Benjinn makes no warranty, expressed, implied or statutory, including but
- * not limited to any implied warranty of merchantability or fitness for any
- * particular purpose, or that the use will not infringe any third party patent,
- * copyright or trademark. Benjinn must not be liable for any loss or damage
- * arising from its use.
- */
 public final class StaticSdk implements SdkInnerInterface,
         AddCardResponseListener, EnrollResponseListener {
-    final static String URL_DJM_BACK = "http://benjiji.fr/djm/djmBack.php";
+
     /**
      * Observer pattern
      */
@@ -146,9 +139,7 @@ public final class StaticSdk implements SdkInnerInterface,
     @Override
     public void onServerServiceOkResponse(Context ctx, JSONObject response) {
         try {
-            //String msg = response.getString("message");
             String token = response.getString("bankToken");
-            //Log.e("SRV", "RECEIVED from server : " + msg + "\n" + token);
             notifyServiceReady(token);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,21 +1,13 @@
 package com.example.djmsdk;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.djmlib.Card;
+import com.example.djmlib.model.Card;
 import com.example.djmlib.SdkPublicInterface;
 import com.example.djmlib.StaticSdk;
-import com.example.djmlib.VolleyRequester;
-import com.example.djmsdk.tools.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONArray;
 
@@ -33,16 +25,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView tv = findViewById(R.id.tvtest);
-        manageFcmToken();
-        sdk = StaticSdk.getInstance();
+       // sdk = StaticSdk.getInstance();
 
-        sdk.registerObserver(this);
+        //sdk.registerObserver(this);
 
   /*      sdk.enrollToService(this, "Ben", "Leeroy",
                 "toto@gmail.com", Utils.getFCMToken(this));
 */
 
-        sdk.addCard(this);
+   //    sdk.addCard(this);
 
 
 //        sdk.deleteCard(this, new Card());
@@ -53,11 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void manageFcmToken(){
-        if(Utils.getFCMToken(this).length() == 0){
-            Utils.getFCMTokenFromServer(this);
-        }
-    }
+
 
     @Override
     public void onServiceAvailable(String token) {
